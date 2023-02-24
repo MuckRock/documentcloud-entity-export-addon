@@ -34,7 +34,9 @@ class EntityExport(AddOn):
                             entity["entity"]["name"],
                             entity["entity"]["wikidata_id"],
                             ", ".join(
-                                sorted(set(str(o["page"]) for o in entity["occurrences"]))
+                                sorted(
+                                    set(str(o["page"]) for o in entity["occurrences"])
+                                )
                             ),
                         ]
                     )
