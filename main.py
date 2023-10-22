@@ -9,9 +9,9 @@ from documentcloud.addon import AddOn
 
 class EntityExport(AddOn):
     def main(self):
-        if not self.documents:
+        """if not self.documents:
             self.set_message("Please select at least one document.")
-            return
+            return"""
         with open("entities.csv", "w+") as file:
             writer = csv.writer(file)
             writer.writerow(
