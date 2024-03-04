@@ -29,11 +29,11 @@ class EntityExport(AddOn):
                     f"documents/{document.id}/entities/?expand=entity"
                 )
                 for entity in resp.json()["results"]:
-                    page_links = []
+                    page_links = set()
                     for occurrence in entity["occurrences"]:
                         page_number = int(occurrence["page"]) + 1
                         page_link = f"{document.canonical_url}#document/p{page_number}"
-                        page_links.append(page_link)
+                        page_links.add(page_link)
                     writer.writerow(
                         [
                             document.id,
