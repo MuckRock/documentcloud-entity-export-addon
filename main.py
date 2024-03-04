@@ -10,7 +10,7 @@ from documentcloud.addon import AddOn
 class EntityExport(AddOn):
     """ Exports all entities of the document into a CSV """
     def main(self):
-        """ Opens the csv, grabs the entities from DC, pastes them into a file. """
+        """ Opens  the csv, grabs the entities from DC, pastes them into a file. """
         with open("entities.csv", "w+", encoding="utf-8") as file:
             writer = csv.writer(file)
             writer.writerow(
@@ -29,6 +29,11 @@ class EntityExport(AddOn):
                     f"documents/{document.id}/entities/?expand=entity"
                 )
                 for entity in resp.json()["results"]:
+                    page_links = []
+                    for occurrence in entity["occurrences"]:
+                        page_number = int(occurrence["page"]) + 1
+                        page_link = f"{document.canonical_url}#document/p{page_number}"
+                        page_links.append(page_link)
                     writer.writerow(
                         [
                             document.id,
@@ -36,14 +41,7 @@ class EntityExport(AddOn):
                             entity["entity"]["id"],
                             entity["entity"]["name"],
                             entity["entity"]["wikidata_id"],
-                            ", ".join(
-                                sorted(
-                                    set(
-                                        str(int(o["page"]) + 1)
-                                        for o in entity["occurrences"]
-                                    )
-                                )
-                            ),
+                            ", ".join(page_links),
                         ]
                     )
 
