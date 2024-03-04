@@ -8,15 +8,15 @@ from documentcloud.addon import AddOn
 
 
 class EntityExport(AddOn):
+    """ Exports all entities of the document into a CSV """
     def main(self):
-        """if not self.documents:
-            self.set_message("Please select at least one document.")
-            return"""
-        with open("entities.csv", "w+") as file:
+        """ Opens the csv, grabs the entities from DC, pastes them into a file. """
+        with open("entities.csv", "w+", encoding="utf-8") as file:
             writer = csv.writer(file)
             writer.writerow(
                 [
                     "document id",
+                    "document url",
                     "entity id",
                     "entity name",
                     "wikidata id",
@@ -32,12 +32,16 @@ class EntityExport(AddOn):
                     writer.writerow(
                         [
                             document.id,
+                            document.canonical_url,
                             entity["entity"]["id"],
                             entity["entity"]["name"],
                             entity["entity"]["wikidata_id"],
                             ", ".join(
                                 sorted(
-                                    set(str(o["page"]) for o in entity["occurrences"])
+                                    set(
+                                        str(int(o["page"]) + 1)
+                                        for o in entity["occurrences"]
+                                    )
                                 )
                             ),
                         ]
