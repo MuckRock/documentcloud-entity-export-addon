@@ -3,8 +3,8 @@ description: Export a CSV of the entities in your documents
 instructions: ''
 type: object
 documents:
-  - query
   - selected
+  - query
 properties: {}
 categories:
   - ai
